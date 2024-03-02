@@ -1,7 +1,11 @@
 
+import ai.kien.python.Python
+
 // The simplest possible sbt build file is just one line:
 
 scalaVersion := "2.13.12"
+fork := true
+
 // That is, to create a valid sbt build, all you've got to do is define the
 // version of Scala you'd like your project to use.
 
@@ -25,7 +29,8 @@ version := "1.0"
 // Want to use a published library in your project?
 // You can define other libraries as dependencies in your build like this:
 
-libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "2.3.0"
+libraryDependencies += "dev.scalapy" %% "scalapy-core" % "0.5.3"
+
 
 // Here, `libraryDependencies` is a set of dependencies, and by using `+=`,
 // we're adding the scala-parser-combinators dependency to the set of dependencies
@@ -75,3 +80,11 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % 
 
 // To learn more about multi-project builds, head over to the official sbt
 // documentation at http://www.scala-sbt.org/documentation.html
+
+lazy val python = Python(".venv/bin/python")
+
+lazy val javaOpts = python.scalapyProperties.get.map {
+  case (k, v) => s"""-D$k=$v"""
+}.toSeq
+
+javaOptions ++= javaOpts

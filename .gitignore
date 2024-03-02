@@ -10,3 +10,6 @@ metals/project/
 
 # VSCode
 .vscode/
+
+# Python
+.venv/
